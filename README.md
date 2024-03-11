@@ -91,7 +91,7 @@ sudo apt install tmux
 sudo apt install tree
 ```
 
-## (jq)[https://jqlang.github.io/jq/]
+## [jq](https://jqlang.github.io/jq/)
 
 ```bash
 sudo apt install jq
