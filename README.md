@@ -97,6 +97,12 @@ sudo apt install tree
 sudo apt install jq
 ```
 
+## [delta](https://github.com/dandavison/delta)
+
+```bash
+sudo apt install 
+```
+
 ## Ubunutu Utils
 ```bash
 sudo apt install gcc
