@@ -103,13 +103,61 @@ sudo apt install jq
 sudo apt install 
 ```
 
-## Ubunutu Utils
+## [asdf](https://asdf-vm.com/guide/getting-started.html)
+
+```bash
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
+```
+
+## [python](https://github.com/asdf-community/asdf-python)
+
+```bash
+asdf plugin-add python
+asdf install python latest
+asdf global python latest
+```
+
+## [go]()
+
+```bash
+asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
+asdf install golang latest
+```
+
+## Ubunutu Utils (do first)
 ```bash
 sudo apt install gcc
 
 sudo apt install make
 
-sudo apt-get install --reinstall g++
+sudo apt install --reinstall g++
+
+sudo apt install coreutils
+
+sudo apt install dpkg-dev \
+                    build-essential \
+                    libncursesw5-dev \
+                    libsqlite3-dev \
+                    libreadline-dev \
+                    libbz2-dev \
+                    libffi-dev \
+                    libssl-dev \
+                    libgdbm-dev \
+                    zlib1g-dev \
+                    libjpeg-dev \
+                    libtiff-dev \
+                    libpq-dev \
+                    libxml2-dev \
+                    libxslt1-dev \
+                    libsdl2-dev \
+                    libnotify-dev \
+                    freeglut3-dev \
+                    libsm-dev \
+                    libgtk-3-dev \
+                    libxtst-dev \
+                    python3-tk \
+                    tk-dev
 ```
 
 
