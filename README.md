@@ -118,11 +118,18 @@ asdf install python latest
 asdf global python latest
 ```
 
-## [go]()
+## golang
 
 ```bash
 asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
 asdf install golang latest
+```
+
+## node
+```
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+asdf install nodejs latest
+asdf global nodejs latest
 ```
 
 ## Ubunutu Utils (do first)
