@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+backup_dir="$HOME/.dotfiles-backup/$(date +%Y%m%d%H%M%S)"
+
+if ! command -v stow >/dev/null 2>&1; then
+  echo "GNU Stow is required. Run ./scripts/bootstrap first."
+  exit 1
+fi
+
+while IFS= read -r source_file; do
+  relative_path="${source_file#"$repo_dir/home/"}"
+  target_file="$HOME/$relative_path"
+
+  if [[ -f "$target_file" && ! -L "$target_file" ]]; then
+    if cmp -s "$source_file" "$target_file"; then
+      rm "$target_file"
+    else
+      mkdir -p "$backup_dir/$(dirname "$relative_path")"
+      mv "$target_file" "$backup_dir/$relative_path"
+      echo "Backed up $target_file to $backup_dir/$relative_path"
+    fi
+  fi
+done < <(find "$repo_dir/home" -type f)
+
+stow --dir="$repo_dir" --target="$HOME" --verbose --restow home

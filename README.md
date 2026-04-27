@@ -1,170 +1,72 @@
 # dotfiles
 
-Managed using [stow](https://www.gnu.org/software/stow/)
+Mac-first dotfiles for my current workstation, with a Ubuntu/Debian path kept close enough to stay useful.
+
+## Layout
+
+- `home/` contains files that should be linked into `$HOME`.
+- `packages/Brewfile` is the macOS package/app manifest.
+- `packages/optional-apps.md` lists GUI apps I like but do not install by default.
+- `packages/ubuntu-apt.txt` is the baseline Ubuntu/Debian package list.
+- `scripts/bootstrap` installs packages for the current OS.
+- `scripts/link` links `home/` into `$HOME` with GNU Stow.
+- `docs/lazyvim.md` records the Neovim/LazyVim tradeoffs.
+
+## macOS setup
 
 ```bash
-stow .
+cd ~/dotfiles
+./scripts/bootstrap
+./scripts/link
 ```
 
-# Apps
-
-## stow
+Then set Fish as the login shell if needed:
 
 ```bash
-sudo apt install stow
+./scripts/use-fish-shell
 ```
 
-## [Fish](https://github.com/fish-shell/fish-shell)
+Git identity is intentionally kept out of the public repo. Put machine-local identity in `~/.gitconfig.local`:
 
-### Install Fish
+```ini
+[user]
+	name = Your Name
+	email = you@example.com
+```
+
+## Ubuntu/Debian setup
 
 ```bash
-sudo apt-add-repository ppa:fish-shell/release-3
-sudo apt update
-sudo apt install fish
+cd ~/dotfiles
+./scripts/bootstrap
+./scripts/link
 ```
 
-### Set as default shell
+To set Fish as the login shell:
 
 ```bash
-sudo bash -c "echo "$(which fish)" >> /etc/shells"
-chsh -s "$(which fish)"
+./scripts/use-fish-shell
 ```
 
-## [Starship Prompt](https://starship.rs/)
+Git identity is intentionally kept out of the public repo. Put machine-local identity in `~/.gitconfig.local`.
 
-```bash
-curl -sS https://starship.rs/install.sh | sh
-```
+Ubuntu package names are not always identical to the macOS tools. `fd` may be installed as `fdfind`, and `bat` may be installed as `batcat`; `scripts/bootstrap` creates `~/.local/bin/fd` and `~/.local/bin/bat` compatibility links when needed.
 
-## nvim
+## What is tracked
 
-### Snap
+- Fish config, abbreviations, and helper functions.
+- Starship prompt config.
+- Ghostty terminal config.
+- Zed settings.
+- LazyVim-based Neovim config, including `lazy-lock.json`.
+- Git identity/config, `.tool-versions`, and `.sqliterc`.
 
-```bash
-sudo snap install nvim
-```
+Generated state is intentionally not tracked: shell history, Fish universal variables, Zed prompt databases, app caches, editor databases, and app login/session state.
 
-## [ripgrep](https://github.com/BurntSushi/ripgrep)
+`scripts/link` backs up existing, differing target files under `~/.dotfiles-backup/<timestamp>/` before Stow links the repo copy.
 
-```bash
-curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-sudo dpkg -i ripgrep_13.0.0_amd64.deb
-```
+## Neovim
 
-## [fd](https://github.com/sharkdp/fd)
+The current Neovim setup is a LazyVim profile with small personal overrides: Onedark theme, `jk` insert-mode escape, Python diagnostics relaxed for unused names/imports, and Python plus mini-surround LazyVim extras.
 
-```bash
-sudo apt install fd-find
-```
-
-## [fzf](https://github.com/junegunn/fzf)
-
-```bash
-sudo apt install fzf
-```
-
-## [bat](https://github.com/sharkdp/bat)
-
-```bash
-sudo apt install bat
-```
-
-## [lazygit](https://github.com/jesseduffield/lazygit)
-
-```bash
-LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
-curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-tar xf lazygit.tar.gz lazygit
-sudo install lazygit /usr/local/bin
-```
-
-## [tmux](https://github.com/tmux/tmux)
-
-```bash
-sudo apt install tmux
-```
-
-## tree
-
-```bash
-sudo apt install tree
-```
-
-## [jq](https://jqlang.github.io/jq/)
-
-```bash
-sudo apt install jq
-```
-
-## [delta](https://github.com/dandavison/delta)
-
-```bash
-sudo apt install 
-```
-
-## [asdf](https://asdf-vm.com/guide/getting-started.html)
-
-```bash
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
-mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
-```
-
-## [python](https://github.com/asdf-community/asdf-python)
-
-```bash
-asdf plugin-add python
-asdf install python latest
-asdf global python latest
-```
-
-## golang
-
-```bash
-asdf plugin add golang https://github.com/asdf-community/asdf-golang.git
-asdf install golang latest
-```
-
-## node
-```
-asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-asdf install nodejs latest
-asdf global nodejs latest
-```
-
-## Ubunutu Utils (do first)
-```bash
-sudo apt install gcc
-
-sudo apt install make
-
-sudo apt install --reinstall g++
-
-sudo apt install coreutils
-
-sudo apt install dpkg-dev \
-                    build-essential \
-                    libncursesw5-dev \
-                    libsqlite3-dev \
-                    libreadline-dev \
-                    libbz2-dev \
-                    libffi-dev \
-                    libssl-dev \
-                    libgdbm-dev \
-                    zlib1g-dev \
-                    libjpeg-dev \
-                    libtiff-dev \
-                    libpq-dev \
-                    libxml2-dev \
-                    libxslt1-dev \
-                    libsdl2-dev \
-                    libnotify-dev \
-                    freeglut3-dev \
-                    libsm-dev \
-                    libgtk-3-dev \
-                    libxtst-dev \
-                    python3-tk \
-                    tk-dev
-```
-
-
+See `docs/lazyvim.md` for the rationale and alternatives.

@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+case "$(uname -s)" in
+  Darwin)
+    if ! command -v brew >/dev/null 2>&1; then
+      echo "Homebrew is required. Install it from https://brew.sh and rerun this script."
+      exit 1
+    fi
+
+    brew bundle --file="$repo_dir/packages/Brewfile"
+    ;;
+  Linux)
+    if command -v apt-get >/dev/null 2>&1; then
+      sudo apt-get update
+      xargs sudo apt-get install -y < "$repo_dir/packages/ubuntu-apt.txt"
+      mkdir -p "$HOME/.local/bin"
+      if command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
+        ln -sf "$(command -v batcat)" "$HOME/.local/bin/bat"
+      fi
+      if command -v fdfind >/dev/null 2>&1 && ! command -v fd >/dev/null 2>&1; then
+        ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
+      fi
+      if ! command -v asdf >/dev/null 2>&1 && [[ ! -d "$HOME/.asdf" ]]; then
+        git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.14.1
+      fi
+    else
+      echo "Unsupported Linux package manager. Install packages from packages/ubuntu-apt.txt manually."
+      exit 1
+    fi
+
+    cat <<'EOF'
+
+Ubuntu follow-up:
+- Install Starship if your distro does not package it: https://starship.rs
+- Install zoxide if your distro does not package it: https://github.com/ajeetdsouza/zoxide
+- Install LazyGit from https://github.com/jesseduffield/lazygit if unavailable via apt.
+EOF
+    ;;
+  *)
+    echo "Unsupported OS: $(uname -s)"
+    exit 1
+    ;;
+esac

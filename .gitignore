@@ -1,0 +1,10 @@
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Local/generated app state that should not become dotfiles.
+home/.config/fish/fish_variables
+home/.config/zed/prompts/
+home/.config/raycast/
+home/.gitconfig.local

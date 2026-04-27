@@ -1,0 +1,10 @@
+bat
+fd-find
+fish
+fzf
+git
+jq
+neovim
+ripgrep
+stow
+tree
