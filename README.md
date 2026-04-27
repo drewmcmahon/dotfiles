@@ -6,11 +6,10 @@ Mac-first dotfiles for my current workstation, with a Ubuntu/Debian path kept cl
 
 - `home/` contains files that should be linked into `$HOME`.
 - `packages/Brewfile` is the macOS package/app manifest.
-- `packages/optional-apps.md` lists GUI apps I like but do not install by default.
+- `packages/optional-apps.md` lists GUI apps I like.
 - `packages/ubuntu-apt.txt` is the baseline Ubuntu/Debian package list.
 - `scripts/bootstrap` installs packages for the current OS.
 - `scripts/link` links `home/` into `$HOME` with GNU Stow.
-- `docs/lazyvim.md` records the Neovim/LazyVim tradeoffs.
 
 ## macOS setup
 
@@ -48,8 +47,6 @@ To set Fish as the login shell:
 ./scripts/use-fish-shell
 ```
 
-Git identity is intentionally kept out of the public repo. Put machine-local identity in `~/.gitconfig.local`.
-
 Ubuntu package names are not always identical to the macOS tools. `fd` may be installed as `fdfind`, and `bat` may be installed as `batcat`; `scripts/bootstrap` creates `~/.local/bin/fd` and `~/.local/bin/bat` compatibility links when needed.
 
 ## What is tracked
@@ -68,5 +65,3 @@ Generated state is intentionally not tracked: shell history, Fish universal vari
 ## Neovim
 
 The current Neovim setup is a LazyVim profile with small personal overrides: Onedark theme, `jk` insert-mode escape, Python diagnostics relaxed for unused names/imports, and Python plus mini-surround LazyVim extras.
-
-See `docs/lazyvim.md` for the rationale and alternatives.
